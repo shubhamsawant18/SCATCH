@@ -1,0 +1,20 @@
+// //usermode
+// fullname-String
+// email-string
+// password-string
+// cart-array
+// isadmin- Boolean
+// orders - array
+// contact- Number
+// picture - db
+
+
+
+// // products
+// image
+// names
+// Price
+// discount
+// bgcolor
+// panelcolor
+// textcolor
