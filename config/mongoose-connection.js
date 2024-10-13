@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const dbgr = require("debug")("development:mongoose");
-const config = require("config"); // Require config only once
+const config = require("config");
 
-// Connect to MongoDB
 mongoose.connect(`${config.get("MONGODB_URI")}/scatch`) 
   .then(function() {
-    dbgr("Mongoose connected successfully"); // Test message
+    dbgr("Mongoose connected successfully");
   })
+
   .catch(function(err) {
     console.error("Mongoose connection error:", err); 
   });

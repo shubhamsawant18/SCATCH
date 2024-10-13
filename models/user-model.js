@@ -13,7 +13,6 @@ const productSchema =  mongoose.Schema({
         defaults:[],
     },
 
-    isadmin:Boolean,
     orders:{
         type:Array,
         default:[],
