@@ -20,4 +20,8 @@ router.post('/create', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> 22937002df3d09058871462f3b145dba3dab8512

@@ -1,22 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const ownerModel = require("../models/owner-model");
+const User = require('../models/user-model'); // Ensure this path is correct
 
-// Render login page for admin (Owner)
-router.get("/login", function(req, res) {
-    res.render("owner-login");
-});
+// POST route to create a new user
+router.post('/create', async (req, res) => {
+    try {
+        const { fullname, email, password } = req.body;
 
-// Owner creation route
-router.post("/create", async function(req, res) {
-    let owners = await ownerModel.find();
-    if (owners.length > 0) {
-        return res.status(502).send("You don't have permission to create a new owner");
+        // Create the user with the provided data
+        const newUser = await User.create({
+            fullname,
+            email,
+            password
+        });
+
+        res.status(201).json({ message: 'User created successfully', newUser });
+    } catch (error) {
+        res.status(400).json({ error: 'Error creating user', details: error.message });
     }
-
-    let { fullname, email, password } = req.body;
-    let createdOwner = await ownerModel.create({ fullname, email, password });
-    res.status(201).send(createdOwner);
 });
 
 module.exports = router;

@@ -1,3 +1,8 @@
 {
+<<<<<<< HEAD
     "MONGODB_URI": "mongodb+srv://shubhsawant124:Anayra%40007@cluster0.3iljs.mongodb.net/Scatch?retryWrites=true&w=majority"
+=======
+    "MONGODB_URI": "mongodb+srv://shubhsawant124:Anayra@007@cluster0.3iljs.mongodb.net/Scatch?retryWrites=true&w=majority&appName=Cluster0"
+>>>>>>> 22937002df3d09058871462f3b145dba3dab8512
 }
+
