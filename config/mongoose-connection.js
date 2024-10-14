@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
-const dbgr = require("debug")("development:mongoose");
-const config = require("config");
+const config = require('./development.json'); // Assuming the URI is stored here
 
-mongoose.connect(`${config.get("MONGODB_URI")}/scatch`) 
-  .then(function() {
-    dbgr("Mongoose connected successfully");
-  })
+const connectDb = async () => {
+    try {
+        await mongoose.connect(config.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log('MongoDB connected successfully');
+    } catch (error) {
+        console.error('MongoDB connection error:', error);
+    }
+};
 
-  .catch(function(err) {
-    console.error("Mongoose connection error:", err); 
-  });
-
-module.exports = mongoose.connection;
+module.exports = connectDb;
