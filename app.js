@@ -3,10 +3,13 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const ownersRouter = require("./routes/ownersRouter");
-const productsRouter = require("./routes/productsRouter"); // Corrected 'productsrouter' to 'productsRouter'
+const productsRouter = require("./routes/productsRouter");
 const usersRouter = require("./routes/usersRouter");
 const connectDb = require("./config/mongoose-connection");
-const User = require("./models/user-model");
+require("dotenv").config(); // Load environment variables
+
+// Log the JWT_KEY to verify it's loaded
+console.log("JWT_KEY:", process.env.JWT_KEY);
 
 // Connect to the database
 connectDb();
@@ -26,7 +29,7 @@ app.get("/", (req, res) => {
 // Use routers
 app.use("/owners", ownersRouter);
 app.use("/products", productsRouter);
-app.use("/users", usersRouter); // Moved this below the root route
+app.use("/users", usersRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
