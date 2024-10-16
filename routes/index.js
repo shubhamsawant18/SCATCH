@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const isLoggedIn = require("../middlewares/isLoggedIn");  // Consistent case
+const isloggedIn = require(.../middlewares/isLoggenIn)
 
 // Render owner login page on the root route
 router.get("/", function(req, res) {
-    const error = [];  // Define an empty error array or populate it as necessary
-    res.render("index", { error });  // Passing 'error' to the view
+    let error = req.flash("error");
+    res.render("index",{error});  // Update this to render the appropriate view
 });
 
-// Protected route for shop, using isLoggedIn middleware
-router.get("/shop", isLoggedIn, function(req, res) {
-    res.render("shop");
-});
+// router.get("/shop,isLoggenIn,function(req,res"){
+//     res.render("shop");
 
+// });
+route.get('/shop', isloggedIn, async(req,res)=>{
+    res.redirect('shop');
+})
 module.exports = router;

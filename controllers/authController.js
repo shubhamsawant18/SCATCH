@@ -35,21 +35,27 @@ module.exports.registerUser = async function (req, res) {
 }
 module.exports.loginUser = async function(req, res) {
     let { email, password } = req.body;
-
-    let user = await User.findOne({ email: email });
-    if (!user) {
-        return res.status(401).json({ error: "Email or Password incorrect" });
-    }
-
-    bcrypt.compare(password, user.password, function(err, result) {
-        if (err) {
-            return res.status(500).json({ error: "Internal Server Error" });
+    try {
+        let user = await User.findOne({ email: email });
+        if (!user) {
+            // req.flash('error', 'Email or Password incorrect');
+            console.log('error', 'Email or Password incorrect');
+            return res.redirect('/');
         }
-        if (result) {
-            let token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_KEY);
-            return res.status(200).json({ message: "Login successful", token });
+
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
+            let token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_KEY, { expiresIn: '1h' });
+            res.cookie("token", token, { httpOnly: true });
+
+            // Redirect to shop after login
+            return res.redirect('/shop');
         } else {
-            return res.status(401).json({ error: "Email or Password incorrect" });
-         }
-    });
+          console.log('error', 'Email or Password incorrect');
+            return res.redirect('/');
+        }
+    } catch (err) {
+console.log('error', `${err}`);
+        return res.redirect('/');
+    }
 }

@@ -1,18 +1,14 @@
+// models/product-model.js
 const mongoose = require('mongoose');
 
-
-
-const productSchema =  mongoose.Schema({
-    image:String,
-    name:String,
-    Price:Number,
-    discount:{
-        type:Number,
-        default:0
-    },
-    bgcolor:String,
-    panelcolor:String,
-    textcolor:String
+const productSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    image: { type: Buffer, required: true }, // Assuming image is stored as a buffer
+    bgcolor: { type: String, required: true },
+    panelcolor: { type: String, required: true },
+    textcolor: { type: String, required: true },
 });
 
-module.exports = mongoose.model("user",productSchema);
+const Product = mongoose.model('Product', productSchema);
+module.exports = Product;

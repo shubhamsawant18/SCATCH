@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Render product creation form
-router.get("/create", function(req, res) {
+router.get("/", function(req, res) {
     res.render("createproducts");  // Make sure this renders the EJS view
 });
 
