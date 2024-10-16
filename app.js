@@ -6,26 +6,32 @@ const ownersRouter = require("./routes/ownersRouter");
 const productsRouter = require("./routes/productsRouter");
 const usersRouter = require("./routes/usersRouter");
 const connectDb = require("./config/mongoose-connection");
-require("dotenv").config(); // Load environment variables
+require("dotenv").config();
 
-// Log the JWT_KEY to verify it's loaded
 console.log("JWT_KEY:", process.env.JWT_KEY);
 
 // Connect to the database
 connectDb();
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(flash())
 app.set("view engine", "ejs");
+
+// Middleware to add isAuthenticated to res.locals
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.cookies.token ? true : false; 
+    next();
+});
+
 // Root route
 app.get("/", (req, res) => {
     const error = [];
     res.render("index", { error });
 });
+
+// Route for shop
 app.get('/shop', async (req, res) => {
     try {
         const products = await Product.find(); // Fetch products from the database
@@ -35,6 +41,7 @@ app.get('/shop', async (req, res) => {
         res.render('shop', { products: [] }); // In case of error, send an empty array
     }
 });
+
 // Use routers
 app.use("/owners", ownersRouter);
 app.use("/products", productsRouter);
