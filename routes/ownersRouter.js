@@ -1,22 +1,42 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/user-model'); // Ensure this path is correct
+const Product = require("../models/product-model");
+const upload = require("../config/multer-config");
 
-// POST route to create a new user
-router.post('/create', async (req, res) => {
+// Route to render the create product form
+router.get("/products/create", (req, res) => {
+    res.render("createproducts", { error: [], success: '' });
+});
+
+// Route to handle the product creation
+router.post("/products/create", upload.single('image'), async (req, res) => {
     try {
-        const { fullname, email, password } = req.body;
-
-        // Create the user with the provided data
-        const newUser = await User.create({
-            fullname,
-            email,
-            password
+        const { name, price, discount, bgcolor, panelcolor, textcolor } = req.body;
+        const product = new Product({
+            name,
+            price,
+            discount,
+            image: req.file.buffer,
+            bgcolor,
+            panelcolor,
+            textcolor
         });
+        await product.save();
+        res.render("createproducts", { error: [], success: "Product created successfully!" });
+    } catch (err) {
+        console.error(err);
+        res.render("createproducts", { error: [err.message], success: '' });
+    }
+});
 
-        res.status(201).json({ message: 'User created successfully', newUser });
-    } catch (error) {
-        res.status(400).json({ error: 'Error creating user', details: error.message });
+// Route to render the admin page
+router.get("/admin", async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.render("admin", { products });
+    } catch (err) {
+        console.error(err);
+        res.render("admin", { products: [] });
     }
 });
 
