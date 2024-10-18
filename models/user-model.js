@@ -5,6 +5,11 @@ const userSchema = new mongoose.Schema({
         type: String, required: true, unique: true 
     },
     password: { type: String, required: true },
+    cart: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product", // Reference the Product model (or the related model)
+        default: []
+    }],
     fullname: { type: String, required: true },
 }, { timestamps: true });
 
