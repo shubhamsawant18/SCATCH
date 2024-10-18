@@ -8,14 +8,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="font-['helvetica_now_display']">
-    <nav class="w-full fixed top-0 left-0 px-5 py-3">
+    <nav class="w-full flex justify-between px-5 py-3">
         <h3 class="text-xl">Scatch</h3>
-        <div class="flex items-center gap-5">
-            <% if (isAuthenticated) { %>
-                <a href="/users/logout" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Logout</a>
-            <% } %>
-        </div>
+        <% if (isAuthenticated) { %>
+            <div class="flex gap-5">
+                <a href="#">Shop</a>
+                <a href="#">Cart</a>
+                <a href="#">My Account</a>
+                <a class="text-red-600" href="/users/logout">Logout</a>
+            </div>
+        <% } %>
     </nav>
-    
 </body>
 </html>
