@@ -1,3 +1,5 @@
+// app.js
+
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
@@ -26,11 +28,13 @@ app.use((req, res, next) => {
     next();
 });
 
+
 // Root route
 app.get("/", (req, res) => {
     const error = [];
-    res.render("index", { error });
+    res.render("index", { error, isAuthenticated: res.locals.isAuthenticated }); // Explicitly pass isAuthenticated
 });
+
 
 // Route for shop
 app.get('/shop', async (req, res) => {
@@ -44,6 +48,7 @@ app.get('/shop', async (req, res) => {
 });
 
 // Use routers
+
 app.use("/owners", ownersRouter);
 app.use("/products", productsRouter);
 app.use("/users", usersRouter);
