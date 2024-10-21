@@ -47,9 +47,13 @@ module.exports.loginUser = async function(req, res) {
         if (match) {
             let token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_KEY, { expiresIn: '1h' });
             res.cookie("token", token, { httpOnly: true });
-
+            console.log('Correct details');
             // Redirect to shop after login
-            return res.redirect('/shop');
+        //    res.status(200).json({
+        //         success: true,
+        //         message : "Logged in successfully"
+        //     });
+            return   res.redirect('/shop');
         } else {
           console.log('error', 'Email or Password incorrect');
             return res.redirect('/');
