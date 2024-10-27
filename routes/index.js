@@ -1,3 +1,5 @@
+// index.js
+
 const express = require('express');
 const router = express.Router();
 const isLoggedIn = require('../middlewares/isLoggedIn'); // Ensure path is correct

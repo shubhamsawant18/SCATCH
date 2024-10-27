@@ -3,7 +3,7 @@ const config = require('./development.json'); // Assuming the URI is stored here
 
 const connectDb = async () => {
     try {
-        await mongoose.connect(config.MONGODB_URI); // Removed deprecated options
+        await mongoose.connect(config.MONGODB_URI); 
         console.log('MongoDB connected successfully');
     } catch (error) {
         console.error('MongoDB connection error:', error);

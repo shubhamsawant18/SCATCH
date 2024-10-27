@@ -1,3 +1,4 @@
+//user-model.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -7,7 +8,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     cart: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product", // Reference the Product model (or the related model)
+        ref: "Product", // Reference the Product model 
         default: []
     }],
     fullname: { type: String, required: true },
@@ -16,3 +17,4 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+
