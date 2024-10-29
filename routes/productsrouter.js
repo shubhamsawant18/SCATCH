@@ -71,18 +71,17 @@ router.get("/cart", isLoggedIn, async (req, res) => {
 });
 
 // Route to remove a product from the cart
-router.get("/removefromcart/:productid", isLoggedIn, async (req, res) => {
+router.delete("/removefromcart/:productid", isLoggedIn, async (req, res) => {
     try {
-        let user = await userModel.findOne({ email: req.user.email });
-        user.cart = user.cart.filter(item => item != req.params.productid);
+        const user = await userModel.findOne({ email: req.user.email });
+        user.cart = user.cart.filter(item => item.toString() !== req.params.productid);
         await user.save();
-        req.flash('success', 'Product removed from cart');
-        res.redirect("/cart");
+        res.status(200).json({ message: "Product removed from cart" });
     } catch (err) {
         console.error(err);
-        req.flash('error', 'Error removing product from cart');
-        res.redirect("/cart");
+        res.status(500).json({ error: "Error removing product from cart" });
     }
 });
+
 
 module.exports = router;

@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const Product = require("./models/product-model");
 const ownersRouter = require("./routes/ownersRouter");
-const productsRouter = require('./routes/productsRouter');
+const productsRouter = require('./routes/productsrouter');
 const usersRouter = require("./routes/usersRouter");
 const connectDb = require("./config/mongoose-connection");
 require("dotenv").config();

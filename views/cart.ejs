@@ -14,12 +14,12 @@
     <div class="w-[75%] h-full">
         <h2 class="text-2xl font-semibold mb-6">Your Cart</h2>
         
-        <% if (!cart || cart.length === 0) { %>  <!-- Added check for undefined cart -->
+        <% if (!cart || cart.length === 0) { %>
             <p>Your cart is empty. <a href="/shop" class="text-blue-500">Continue shopping</a></p>
         <% } else { %>
-            <div class="grid grid-cols-1 gap-6">
+            <div class="grid grid-cols-1 gap-6" id="cart-items">
                 <% cart.forEach(function(item) { %>
-                    <div class="w-full flex shadow-md rounded-lg">
+                    <div class="w-full flex shadow-md rounded-lg" id="cart-item-<%= item._id %>">
                         <div class="w-1/3 bg-[<%= item.bgcolor %>] flex items-center justify-center">
                             <img class="h-[12rem]" src="data:image/jpeg;base64,<%= item.image.toString('base64') %>" alt="Product Image">
                         </div>
@@ -34,8 +34,8 @@
                             </div>
 
                             <div class="flex justify-between items-center mt-4">
-                                <button class="px-2 py-1 bg-red-500 text-white rounded" onclick="location.href='/products/removefromcart/<%= item._id %>'">Remove</button>
-                                <p class="font-semibold">Total: ₹<%= item.price * item.quantity %></p>
+                                <button class="px-2 py-1 bg-red-500 text-white rounded" onclick="removeCartItem('<%= item._id %>')">Remove</button>
+                                <p class="font-semibold">Total: ₹<%= item.price %></p>
                             </div>
                         </div>
                     </div>
@@ -50,22 +50,29 @@
 </div>
 
 <script>
-    // JavaScript function to update cart item quantity
-    function updateCartItem(productId, action) {
-        fetch(`/updatecart/${productId}/${action}`, {
-            method: 'GET',
-            credentials: 'same-origin'
+    function removeCartItem(productId) {
+        fetch(`/products/removefromcart/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
         })
-        .then(response => {
-            if (response.ok) {
-                window.location.reload(); // Reload the page to update cart
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                // Remove the cart item from the display
+                document.getElementById(`cart-item-${productId}`).remove();
+                // Check if the cart is empty
+                if (document.getElementById("cart-items").children.length === 0) {
+                    document.getElementById("cart-items").innerHTML = "<p>Your cart is empty. <a href='/shop' class='text-blue-500'>Continue shopping</a></p>";
+                }
             } else {
-                alert("Error updating cart");
+                alert("Error removing product from cart");
             }
         })
         .catch(err => {
             console.error("Error:", err);
-            alert("Failed to update cart.");
+            alert("Failed to remove item.");
         });
     }
 </script>
