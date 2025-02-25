@@ -44,5 +44,15 @@ router.get("/addtocart/:productid", isLoggedIn, async (req, res) => {
         res.redirect("/shop");
     }
 });
-
+router.get('/owners/products/create', isLoggedIn, async(req,res)=>{
+    try{
+        res.redirect('/owners/products/create')
+    }catch(e){
+        console.error(e);
+        req.flash(
+            'error', "Failed to create a product"
+        );
+        res.redirect('/owners/products/create')
+    }
+})
 module.exports = router;
