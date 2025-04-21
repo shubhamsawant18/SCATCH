@@ -20,7 +20,7 @@ module.exports.registerUser = async function (req, res) {
 
         const newUser = new User({
             email,
-            password: hashedPassword, // Hashed password stored
+            password: hashedPassword, 
             fullname,
         });
         await newUser.save();
